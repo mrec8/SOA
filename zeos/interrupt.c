@@ -74,6 +74,7 @@ void setTrapHandler(int vector, void (*handler)(), int maxAccessibleFromPL)
 }
 
 void keyboard_handler(void);
+void clock_handler(void);
 
 void setIdt()
 {
@@ -82,16 +83,17 @@ void setIdt()
   idtR.limit = IDT_ENTRIES * sizeof(Gate) - 1;
   
   set_handlers();
+  
 
   /* ADD INITIALIZATION CODE FOR INTERRUPT VECTOR */
+  
+  setInterruptHandler(32, clock_handler, 0);
+  setInterruptHandler(33, keyboard_handler, 0);
 
   set_idt_reg(&idtR);
 }
 
-void set_handlers() {
-  //setInterruptHandler(32, clock_handler, 0);
-  setInterruptHandler(33, keyboard_handler, 0);
-}
+
 
 
 void keyboard_routine() {
@@ -100,4 +102,8 @@ void keyboard_routine() {
     unsigned char r = char_map[c & 0x7F];
     printc_xy(0,0,r);
   }
+}
+
+void clock_routine() {
+  zeos_show_clock();
 }

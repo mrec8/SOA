@@ -71,7 +71,7 @@
 ENTRY(clock_handler) 
 	  SAVE_ALL 
 	  EOI
-	  call keyboard_routine
+	  call clock_routine
 	  RESTORE_ALL
 	  iret
 	  

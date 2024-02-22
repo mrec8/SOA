@@ -16,7 +16,7 @@
 .globl clock_handler; .type clock_handler, @function; .align 0; clock_handler:
    pushl %gs; pushl %fs; pushl %es; pushl %ds; pushl %eax; pushl %ebp; pushl %edi; pushl %esi; pushl %ebx; pushl %ecx; pushl %edx; movl $0x18, %edx; movl %edx, %ds; movl %edx, %es
    movb $0x20, %al ; outb %al, $0x20 ;
-   call keyboard_routine
+   call clock_routine
    pop %edx; pop %ecx; pop %ebx; pop %esi; pop %edi; pop %ebp; pop %eax; pop %ds; pop %es; pop %fs; pop %gs;
    iret
 
