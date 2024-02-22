@@ -50,4 +50,36 @@
       movl $__KERNEL_DS, %edx;    \
       movl %edx, %ds;           \
       movl %edx, %es
+      
+#define RESTORE_ALL \
+      pop %edx; \
+      pop %ecx; \
+      pop %ebx; \
+      pop %esi; \
+      pop %edi; \
+      pop %ebp; \
+      pop %eax; \
+      pop %ds; \
+      pop %es; \
+      pop %fs; \
+      pop %gs; 
+      
+#define EOI \
+	  movb $0x20, %al ; \
+	  outb %al, $0x20 ;
+      
+ENTRY(clock_handler) 
+	  SAVE_ALL 
+	  EOI
+	  call keyboard_routine
+	  RESTORE_ALL
+	  iret
+	  
+	  
+ENTRY(keyboard_handler) 
+	  SAVE_ALL 
+	  call keyboard_routine
+	  EOI
+	  RESTORE_ALL
+	  iret
 
